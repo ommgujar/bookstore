@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BookNook – Your Online Book Store</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="logo" href="/">Book<span>Nook</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+      <nav class="nav-links" id="navLinks">
+        <a class="active" href="/">Home</a>
+        <a href="/catalogue.html">Catalogue</a>
+        <span id="authSlot" style="display:contents"></span>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div>
+        <h1>Find your next favourite book.</h1>
+        <p>Thousands of stories, ideas and skills — from timeless fiction to cutting-edge tech — delivered to your door.</p>
+        <a class="btn" href="/catalogue.html">Browse catalogue</a>
+        <a class="btn btn-outline" href="/register.html">Join free</a>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="spine" style="height:160px;background:#e8590c"></div>
+        <div class="spine" style="height:210px;background:#1971c2"></div>
+        <div class="spine" style="height:180px;background:#2b8a3e"></div>
+        <div class="spine" style="height:230px;background:#c2255c"></div>
+        <div class="spine" style="height:190px;background:#f08c00"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="features">
+        <div class="feature"><div class="icon">📚</div><h3>Wide selection</h3><p>Fiction, history, science, self-help, technology and more.</p></div>
+        <div class="feature"><div class="icon">🚚</div><h3>Fast delivery</h3><p>Quick, reliable shipping across India.</p></div>
+        <div class="feature"><div class="icon">💸</div><h3>Great prices</h3><p>Affordable prices on bestsellers and classics.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title">Featured books</h2>
+      <div class="grid" id="featured"><p class="empty">Loading…</p></div>
+      <p style="text-align:center;margin-top:24px"><a class="btn btn-outline" href="/catalogue.html">See all books</a></p>
+    </div>
+  </section>
+
+  <footer><div class="container">© 2026 BookNook · Built with Node.js, Express &amp; MySQL</div></footer>
+
+  <script src="/js/app.js"></script>
+  <script>
+    (async () => {
+      const box = document.getElementById('featured');
+      try {
+        const res = await fetch('/api/books?sort=newest');
+        const { books } = await res.json();
+        box.innerHTML = books.slice(0, 4).map(bookCard).join('') || '<p class="empty">No books yet.</p>';
+      } catch {
+        box.innerHTML = '<p class="empty">Could not load books. Is the server and database running?</p>';
+      }
+    })();
+  </script>
+</body>
+</html>
